@@ -31,7 +31,7 @@ public class Field
         float goalLimitY = 7.32f / 2;
 
         if ((ballPos.X >= this.heightLimit || ballPos.X <= - this.heightLimit) &&
-            ballPos.Y >= - goalLimitY && ballPos.Y <= goalLimitY)
+            ballPos.Y >= - goalLimitY && ballPos.Y <= goalLimitY && ballPos.Z < 2.44f )// 2.44f <= goalHeight
         {
             return true;
         }

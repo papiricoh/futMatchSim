@@ -11,10 +11,17 @@
     <None Remove="Models\" />
     <None Remove="Models\Enums\" />
     <None Remove="Models\Tactics\" />
+    <None Remove="Utils\" />
+    <None Remove="Models\Tactics\TacticDetails\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Models\Enums\" />
     <Folder Include="Models\Tactics\" />
+    <Folder Include="Utils\" />
+    <Folder Include="Models\Tactics\TacticDetails\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="ppy.SDL2-CS" Version="1.0.82" />
   </ItemGroup>
 </Project>

@@ -1,33 +1,43 @@
 ﻿using System.Diagnostics;
-using System.Numerics;
+using futMatchSim;
 using futMatchSim.Models;
+using futMatchSim.Utils;
+using SDL2;
 
 public class Program
 {
     private static Program? instance = null;
     private static Stopwatch timer = new Stopwatch();
     public static double deltaTime;
-    public Field field;
 
     public static bool devMode = true;
+    private static VisualManager? vm;
 
-    private GameManager? gameManager;
+    private GameManager gameManager;
 
 
     static void Main(string[] args)
     {
         instance = getInstance();
-        instance.init();
+
+        if (devMode)
+        {
+            vm = new VisualManager();
+        }
+
         instance.loop();
     }
 
-    private void init()
+    public Program() //INIT
     {
-        this.field = new Field(105f, 68f);
-        Team homeTeam = new Team();
 
-        Team awayTeam = new Team();
-        this.gameManager = new GameManager(homeTeam, awayTeam);
+        Team homeTeam = new Team("Madrid", "Real Madrid", PlayerGenerator.generateTeam());
+
+        Team awayTeam = new Team("Barcelona", "FC Barcelona", PlayerGenerator.generateTeam());
+
+        Console.WriteLine(homeTeam.tactic.players.Count);
+        this.gameManager = new GameManager(homeTeam, awayTeam, null);
+
     }
 
     public static Program getInstance()
@@ -40,6 +50,11 @@ public class Program
         return instance;
     }
 
+    public GameManager GetGameManager()
+    {
+        return this.gameManager;
+    }
+
     public void loop()
     {
         //Initialice teams and players
@@ -48,22 +63,35 @@ public class Program
 
         while (true)
         {
+            SDL.SDL_Event e;
+            while (SDL.SDL_PollEvent(out e) != 0)
+            {
+                if (e.type == SDL.SDL_EventType.SDL_QUIT)
+                {
+                    vm!.quitScreen();
+                    return;
+                }
+            }
+
             deltaTime = timer.Elapsed.TotalSeconds;
             timer.Restart();
 
 
             UpdateSimulation(deltaTime);
 
+            if (devMode)
+            {
+                vm!.debugRender();
+            }
 
             System.Threading.Thread.Sleep(50); // 50 = ~20 FPS, 32 = ~30 FPS, 16 = ~60 FPS
         }
     }
 
 
+
     private void UpdateSimulation(double deltaTime)
     {
-        /*pe.setNewDirection(new Vector3(1, 1, 0), 5.0f);
-        pe.updatePos();*/
-        
+        gameManager.tick(deltaTime);
     }
 }

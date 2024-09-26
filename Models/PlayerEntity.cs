@@ -41,6 +41,26 @@ namespace futMatchSim.Models
 			this.speed = speed;
 		}
 
+
+		public Vector3 getPosition()
+		{
+			return this.position;
+		}
+
+        public void setPosition(Vector3 pos)
+        {
+            this.position = pos;
+        }
+
+        public Vector3 getDirection()
+		{
+			return this.direction;
+		}
+
+		public float getSpeed()
+		{
+			return this.speed;
+		}
 	}
 }
 
